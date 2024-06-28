@@ -13,7 +13,7 @@ class QuotesManager extends Manager
      */
     public function createKanyeDriver(): QuotesDriver
     {
-        return new KanyeQuotesDriver();
+        return resolve(KanyeQuotesDriver::class);
     }
 
     /**
