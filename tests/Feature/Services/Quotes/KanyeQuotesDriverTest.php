@@ -56,7 +56,7 @@ class KanyeQuotesDriverTest extends TestCase
         $quote = $this->faker->sentence();
         $quotes = array_fill(0, 5, $quote);
 
-        Cache::shouldReceive('get')
+        Cache::shouldReceive('remember')
             ->once()
             ->andReturn($quotes);
 
