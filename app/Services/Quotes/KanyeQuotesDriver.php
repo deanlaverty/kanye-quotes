@@ -26,7 +26,7 @@ readonly class KanyeQuotesDriver implements QuotesDriver
      */
     public function get(): Collection
     {
-        $quotes = Cache::get(self::CACHE_VALUE, function () {
+        $quotes = Cache::remember(self::CACHE_VALUE, 1000, function () {
             $quotesResponse = Http::pool(fn (Pool $pool) => [
                 $pool->get($this->apiUrl),
                 $pool->get($this->apiUrl),
