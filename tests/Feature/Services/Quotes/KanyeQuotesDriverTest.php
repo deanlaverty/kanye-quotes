@@ -6,6 +6,7 @@ namespace Feature\Services\Quotes;
 
 use App\Services\Quotes\KanyeQuotesDriver;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
@@ -45,5 +46,28 @@ class KanyeQuotesDriverTest extends TestCase
         $this->assertEquals($expected, $quotes);
 
         Http::assertSentCount(5);
+    }
+
+    /**
+     * @return void
+     */
+    public function testQuotesAreReturnedFromCacheWhenSet(): void
+    {
+        $quote = $this->faker->sentence();
+        $quotes = array_fill(0, 5, $quote);
+
+        Cache::shouldReceive('get')
+            ->once()
+            ->andReturn($quotes);
+
+        /** @var KanyeQuotesDriver $service */
+        $service = resolve(KanyeQuotesDriver::class);
+        $quotesResponse = $service->get();
+
+        $expected = collect($quotes);
+
+        $this->assertEquals($expected, $quotesResponse);
+
+        Http::assertNothingSent();
     }
 }
