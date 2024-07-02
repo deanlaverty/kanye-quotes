@@ -35,11 +35,7 @@ class EnsureApiKeyIsValidTest extends TestCase
 
         Config::set('auth.api_key', $key);
 
-        $request = Mockery::mock(Request::class);
-        $request->shouldReceive('header')
-            ->with('X-API-KEY')
-            ->andReturn($key)
-            ->once();
+        $request = $this->mockRequest($key);
 
         $responseContent = 'Passed middleware';
 
@@ -62,11 +58,7 @@ class EnsureApiKeyIsValidTest extends TestCase
 
         Config::set('auth.api_key', 'correct-key');
 
-        $request = Mockery::mock(Request::class);
-        $request->shouldReceive('header')
-            ->with('X-API-KEY')
-            ->andReturn($key)
-            ->once();
+        $request = $this->mockRequest($key);
 
         $responseContent = 'Passed middleware';
 
@@ -79,5 +71,20 @@ class EnsureApiKeyIsValidTest extends TestCase
 
         $this->assertEquals(Response::HTTP_UNAUTHORIZED, $response->getStatusCode());
         $this->assertSame('Wrong API key', $response->getData()->message);
+    }
+
+    /**
+     * @param string $apiKey
+     * @return Mockery\MockInterface
+     */
+    private function mockRequest(string $apiKey): Mockery\MockInterface
+    {
+        $request = Mockery::mock(Request::class);
+        $request->shouldReceive('header')
+            ->with('X-API-KEY')
+            ->andReturn($apiKey)
+            ->once();
+
+        return $request;
     }
 }
