@@ -47,4 +47,12 @@ readonly class KanyeQuotesDriver implements QuotesDriver
 
         return collect($quotes);
     }
+
+    /**
+     * @return void
+     */
+    public function clearCache(): void
+    {
+        Cache::forget(self::CACHE_VALUE);
+    }
 }
