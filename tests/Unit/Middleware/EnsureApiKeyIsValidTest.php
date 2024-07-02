@@ -16,9 +16,6 @@ class EnsureApiKeyIsValidTest extends TestCase
 {
     protected EnsureApiKeyIsValid $middleware;
 
-    /**
-     * @return void
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -26,9 +23,6 @@ class EnsureApiKeyIsValidTest extends TestCase
         $this->middleware = new EnsureApiKeyIsValid();
     }
 
-    /**
-     * @return void
-     */
     public function testCorrectApiKeyPasses(): void
     {
         $key = 'secret';
@@ -39,7 +33,7 @@ class EnsureApiKeyIsValidTest extends TestCase
 
         $responseContent = 'Passed middleware';
 
-        $next = function ()  use ($responseContent) {
+        $next = function () use ($responseContent) {
             return response($responseContent);
         };
 
@@ -49,9 +43,6 @@ class EnsureApiKeyIsValidTest extends TestCase
         $this->assertEquals($responseContent, $response->getContent());
     }
 
-    /**
-     * @return void
-     */
     public function testInvalidApiKeyFails(): void
     {
         $key = 'incorrect-key';
@@ -62,7 +53,7 @@ class EnsureApiKeyIsValidTest extends TestCase
 
         $responseContent = 'Passed middleware';
 
-        $next = function ()  use ($responseContent) {
+        $next = function () use ($responseContent) {
             return response($responseContent);
         };
 
@@ -73,10 +64,6 @@ class EnsureApiKeyIsValidTest extends TestCase
         $this->assertSame('Wrong API key', $response->getData()->message);
     }
 
-    /**
-     * @param string $apiKey
-     * @return Mockery\MockInterface
-     */
     private function mockRequest(string $apiKey): Mockery\MockInterface
     {
         $request = Mockery::mock(Request::class);

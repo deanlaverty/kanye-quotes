@@ -14,9 +14,6 @@ class KanyeQuotesDriverTest extends TestCase
 {
     use WithFaker;
 
-    /**
-     * @return void
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -24,9 +21,6 @@ class KanyeQuotesDriverTest extends TestCase
         Http::preventStrayRequests();
     }
 
-    /**
-     * @return void
-     */
     public function testQuotesAreReturnedCorrectly(): void
     {
         $quote = $this->faker->sentence();
@@ -48,9 +42,6 @@ class KanyeQuotesDriverTest extends TestCase
         Http::assertSentCount(5);
     }
 
-    /**
-     * @return void
-     */
     public function testQuotesAreReturnedFromCacheWhenSet(): void
     {
         $quote = $this->faker->sentence();

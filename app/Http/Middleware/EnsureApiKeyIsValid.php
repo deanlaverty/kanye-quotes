@@ -13,7 +13,7 @@ class EnsureApiKeyIsValid
     /**
      * Handle an incoming request.
      *
-     * @param Closure(Request): (Response) $next
+     * @param  Closure(Request): (Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
@@ -21,8 +21,8 @@ class EnsureApiKeyIsValid
 
         if ($headerKey !== config('auth.api_key')) {
             return response()->json([
-                'error'     => true,
-                'message'   => 'Wrong API key'
+                'error' => true,
+                'message' => 'Wrong API key',
             ], Response::HTTP_UNAUTHORIZED);
         }
 

@@ -14,9 +14,6 @@ class KanyeQuotesControllerTest extends TestCase
 {
     use WithFaker;
 
-    /**
-     * @return void
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -24,9 +21,6 @@ class KanyeQuotesControllerTest extends TestCase
         Http::preventStrayRequests();
     }
 
-    /**
-     * @return void
-     */
     public function testQuotesAreReturnedCorrectly(): void
     {
         $apiKey = Config::get('auth.api_key');
@@ -47,9 +41,6 @@ class KanyeQuotesControllerTest extends TestCase
             ->assertJson($quotes->toArray());
     }
 
-    /**
-     * @return void
-     */
     public function testEndpointIsUnauthorisedWithIncorrectKey(): void
     {
         $apiKey = 'incorrect-api-key';

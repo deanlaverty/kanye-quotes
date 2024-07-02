@@ -10,9 +10,6 @@ use Illuminate\Http\JsonResponse;
 
 class KanyeQuotesController extends Controller
 {
-    /**
-     * @return JsonResponse
-     */
     public function __invoke(): JsonResponse
     {
         return response()->json(

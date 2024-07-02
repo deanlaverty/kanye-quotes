@@ -8,17 +8,11 @@ use Illuminate\Support\Manager;
 
 class QuotesManager extends Manager
 {
-    /**
-     * @return QuotesDriver
-     */
     public function createKanyeDriver(): QuotesDriver
     {
         return resolve(KanyeQuotesDriver::class);
     }
 
-    /**
-     * @return string
-     */
     public function getDefaultDriver(): string
     {
         return $this->config->get('quotes.driver', 'kanye');

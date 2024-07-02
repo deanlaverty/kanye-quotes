@@ -9,9 +9,6 @@ use Illuminate\Support\Facades\Facade;
 
 class Quote extends Facade
 {
-    /**
-     * @return string
-     */
     protected static function getFacadeAccessor(): string
     {
         return QuotesManager::class;

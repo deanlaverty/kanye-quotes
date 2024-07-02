@@ -14,16 +14,8 @@ readonly class KanyeQuotesDriver implements QuotesDriver
 {
     private const CACHE_VALUE = 'kanye-quotes';
 
-    /**
-     * @param string $apiUrl
-     */
-    public function __construct(private string $apiUrl)
-    {
-    }
+    public function __construct(private string $apiUrl) {}
 
-    /**
-     * @return Collection
-     */
     public function get(): Collection
     {
         $quotes = Cache::remember(
@@ -48,9 +40,6 @@ readonly class KanyeQuotesDriver implements QuotesDriver
         return collect($quotes);
     }
 
-    /**
-     * @return void
-     */
     public function clearCache(): void
     {
         Cache::forget(self::CACHE_VALUE);

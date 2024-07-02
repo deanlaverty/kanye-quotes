@@ -10,9 +10,6 @@ use Illuminate\Http\JsonResponse;
 
 class RefreshKanyeQuotesController extends Controller
 {
-    /**
-     * @return JsonResponse
-     */
     public function __invoke(): JsonResponse
     {
         Quote::clearCache();
