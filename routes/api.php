@@ -13,6 +13,9 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::middleware(EnsureApiKeyIsValid::class)->group(function () {
-    Route::get('/quotes/kanye-west', KanyeQuotesController::class);
-    Route::get('/quotes/refresh/kanye-west', RefreshKanyeQuotesController::class);
+    Route::get('/quotes/kanye-west', KanyeQuotesController::class)
+        ->name('kanye-quotes-get');
+
+    Route::get('/quotes/refresh/kanye-west', RefreshKanyeQuotesController::class)
+        ->name('kanye-quotes-refresh');
 });
