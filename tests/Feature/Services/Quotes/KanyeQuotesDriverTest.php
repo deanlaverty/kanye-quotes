@@ -4,7 +4,12 @@ declare(strict_types=1);
 
 namespace Feature\Services\Quotes;
 
+use App\Services\Quotes\Exceptions\KanyeQuotesApiException;
 use App\Services\Quotes\KanyeQuotesDriver;
+use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Promise\RejectedPromise;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Response;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
@@ -46,10 +51,14 @@ class KanyeQuotesDriverTest extends TestCase
     {
         $quote = $this->faker->sentence();
         $quotes = array_fill(0, 5, $quote);
+        $quotesCollection = collect($quotes);
 
-        Cache::shouldReceive('remember')
+        Cache::shouldReceive('get')
             ->once()
-            ->andReturn($quotes);
+            ->andReturn($quotesCollection);
+
+        Cache::shouldReceive('set')
+            ->never();
 
         /** @var KanyeQuotesDriver $service */
         $service = resolve(KanyeQuotesDriver::class);
@@ -60,5 +69,25 @@ class KanyeQuotesDriverTest extends TestCase
         $this->assertEquals($expected, $quotesResponse);
 
         Http::assertNothingSent();
+    }
+
+    public function testExceptionIsThrownIfErrorWithApi(): void
+    {
+        $quote = $this->faker->sentence();
+
+        Http::fake([
+            '*' => Http::sequence()
+                ->push(['quote' => $quote])
+                ->push(['quote' => $quote])
+                ->push(['quote' => $quote])
+                ->push(['quote' => $quote])
+                ->push('There was an error', 400)
+        ]);
+
+        $this->expectException(KanyeQuotesApiException::class);
+
+        /** @var KanyeQuotesDriver $service */
+        $service = resolve(KanyeQuotesDriver::class);
+        $service->get();
     }
 }

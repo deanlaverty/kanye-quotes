@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services\Quotes;
 
+use App\Services\Quotes\Exceptions\KanyeQuotesApiException;
 use Illuminate\Http\Client\Pool;
-use Illuminate\Http\Client\Response;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
@@ -18,26 +18,39 @@ readonly class KanyeQuotesDriver implements QuotesDriver
 
     public function get(): Collection
     {
-        $quotes = Cache::remember(
-            key: self::CACHE_VALUE,
-            ttl: 120,
-            callback: function () {
-                $quotesResponse = Http::pool(fn (Pool $pool) => [
-                    $pool->get($this->apiUrl),
-                    $pool->get($this->apiUrl),
-                    $pool->get($this->apiUrl),
-                    $pool->get($this->apiUrl),
-                    $pool->get($this->apiUrl),
-                ]);
+        $cachedQuotes = Cache::get(self::CACHE_VALUE);
 
-                return array_map(
-                    fn (Response $response) => $response->json('quote'),
-                    $quotesResponse
-                );
+        if ($cachedQuotes !== null) {
+            return $cachedQuotes;
+        }
+
+        $quotesResponse = Http::pool(fn (Pool $pool) => [
+            $pool->get($this->apiUrl),
+            $pool->get($this->apiUrl),
+            $pool->get($this->apiUrl),
+            $pool->get($this->apiUrl),
+            $pool->get('https://api.kanye.rest/sshhss'),
+        ]);
+
+        $quotes = [];
+
+        foreach ($quotesResponse as $quoteResponse) {
+            if ($quoteResponse->ok() === false) {
+                throw new KanyeQuotesApiException($quoteResponse->getBody()->getContents());
             }
+
+            $quotes[] = $quoteResponse->json('quote');
+        }
+
+        $quotesCollection = collect($quotes);
+
+        Cache::set(
+            key: self::CACHE_VALUE,
+            value: $quotesCollection,
+            ttl: 120
         );
 
-        return collect($quotes);
+        return $quotesCollection;
     }
 
     public function clearCache(): void
