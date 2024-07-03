@@ -29,7 +29,7 @@ readonly class KanyeQuotesDriver implements QuotesDriver
             $pool->get($this->apiUrl),
             $pool->get($this->apiUrl),
             $pool->get($this->apiUrl),
-            $pool->get('https://api.kanye.rest/sshhss'),
+            $pool->get($this->apiUrl),
         ]);
 
         $quotes = [];
