@@ -2,10 +2,16 @@
 
 ## Setup
 The project is setup using Laravel sail which uses Docker under the hood so you will first need to install
-Docker on your system.
+Docker on your system. The project also requires PHP ^8.2.
 
-Once you have pulled the project down you can run `./vendor/bin/sail up` you can append the `-d` flag
-to boot the containers in detached mode if you wish.
+Once you have pulled the project down you can run the following commands:
+
+```
+composer install
+cp .env.example .env
+./vendor/bin/sail up
+```
+The application should now be accessible at http://localhost
 
 ## ENV
 The API URL & Cache TTL (in seconds) is defined in config, but this can be overridden in the .env file.
