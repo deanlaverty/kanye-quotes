@@ -57,7 +57,7 @@ class KanyeQuotesControllerTest extends TestCase
 
         $response->assertServiceUnavailable()
             ->assertJson([
-                'message' => 'There was an error fetching Kanye quotes. Please try again.'
+                'message' => 'There was an error fetching Kanye quotes. Please try again.',
             ]);
     }
 

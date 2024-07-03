@@ -53,7 +53,7 @@ class RefreshKanyeQuotesControllerTest extends TestCase
         Quote::shouldReceive('clearCache')
             ->once()
             ->andReturnNull();
-        
+
         Quote::shouldReceive('get')
             ->once()
             ->andThrow(KanyeQuotesApiException::class);
@@ -65,7 +65,7 @@ class RefreshKanyeQuotesControllerTest extends TestCase
 
         $response->assertServiceUnavailable()
             ->assertJson([
-                'message' => 'There was an error fetching Kanye quotes. Please try again.'
+                'message' => 'There was an error fetching Kanye quotes. Please try again.',
             ]);
     }
 
