@@ -18,7 +18,7 @@ class KanyeQuotesApiException extends Exception
     {
         return response()->json(
             data: [
-                'message' => 'There was an error fetching Kanye quotes. Please try again.'
+                'message' => 'There was an error fetching Kanye quotes. Please try again.',
             ],
             status: Response::HTTP_SERVICE_UNAVAILABLE
         );

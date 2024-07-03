@@ -6,10 +6,6 @@ namespace Feature\Services\Quotes;
 
 use App\Services\Quotes\Exceptions\KanyeQuotesApiException;
 use App\Services\Quotes\KanyeQuotesDriver;
-use GuzzleHttp\Exception\ConnectException;
-use GuzzleHttp\Promise\RejectedPromise;
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Psr7\Response;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
@@ -81,7 +77,7 @@ class KanyeQuotesDriverTest extends TestCase
                 ->push(['quote' => $quote])
                 ->push(['quote' => $quote])
                 ->push(['quote' => $quote])
-                ->push('There was an error', 400)
+                ->push('There was an error', 400),
         ]);
 
         $this->expectException(KanyeQuotesApiException::class);
