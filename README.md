@@ -9,7 +9,8 @@ Once you have pulled the project down you can run the following commands:
 ```
 composer install
 cp .env.example .env
-./vendor/bin/sail up
+./vendor/bin/sail up -d
+./vendor/bin/sail artisan key:generate
 ```
 The application should now be accessible at http://localhost
 
