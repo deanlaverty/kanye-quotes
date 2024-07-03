@@ -44,11 +44,7 @@ readonly class KanyeQuotesDriver implements QuotesDriver
 
         $quotesCollection = collect($quotes);
 
-        Cache::set(
-            key: self::CACHE_VALUE,
-            value: $quotesCollection,
-            ttl: 120
-        );
+        Cache::set(key: self::CACHE_VALUE, value: $quotesCollection, ttl: 120);
 
         return $quotesCollection;
     }
