@@ -7,6 +7,9 @@ Docker on your system.
 Once you have pulled the project down you can run `./vendor/bin/sail up` you can append the `-d` flag
 to boot the containers in detached mode if you wish.
 
+## ENV
+The API URL & Cache TTL (in seconds) is defined in config, but this can be overridden in the .env file.
+
 ## Endpoints
 Both endpoints are protected via an API key. You can access the below endpoints using the following Authorization header: `X-Api-Key`.
 
