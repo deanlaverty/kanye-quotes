@@ -23,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(
             abstract: KanyeQuotesDriver::class,
-            concrete: fn (Application $app) => new KanyeQuotesDriver(config('quotes.api_url'))
+            concrete: fn (Application $app) => new KanyeQuotesDriver(config('quotes.api_url'), config('quotes.cache_ttl'))
         );
     }
 
