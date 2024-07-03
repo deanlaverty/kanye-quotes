@@ -24,7 +24,7 @@ This will get 5 random quotes and cache them for 2 minutes.
 
 #### Refresh kanye quotes
 ```
-GET http://localhost/api/quotes/kanye-west
+GET http://localhost/api/quotes/refresh/kanye-west
 ```
 
 This will refresh the quotes to return 5 new quotes and then cache them again.
@@ -39,4 +39,4 @@ default code style configuration.
 This can be checked with the following command: `./vendor/bin/sail pint`
 
 ## CI
-CI is handled via a github action. On push it will setup the application, run Laravel pint and then run our tests.
+CI is handled via a Github action. On push it will setup the application, run Laravel pint and then run our tests.
