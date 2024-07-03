@@ -40,3 +40,4 @@ This can be checked with the following command: `./vendor/bin/sail pint`
 
 ## CI
 CI is handled via a Github action. On push it will setup the application, run Laravel pint and then run our tests.
+The workflow can be found in `.github/workflows`
