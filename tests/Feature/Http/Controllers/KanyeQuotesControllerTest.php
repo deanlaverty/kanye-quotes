@@ -55,7 +55,10 @@ class KanyeQuotesControllerTest extends TestCase
             ['X-API-KEY' => $apiKey]
         );
 
-        $response->assertServiceUnavailable();
+        $response->assertServiceUnavailable()
+            ->assertJson([
+                'message' => 'There was an error fetching Kanye quotes. Please try again.'
+            ]);
     }
 
     public function testEndpointIsUnauthorisedWithIncorrectKey(): void

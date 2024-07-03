@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Feature\Http\Controllers;
 
 use App\Facades\Quote;
+use App\Services\Quotes\Exceptions\KanyeQuotesApiException;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
@@ -43,6 +44,29 @@ class RefreshKanyeQuotesControllerTest extends TestCase
         $response->assertSuccessful()
             ->assertJsonCount(5)
             ->assertJson($quotes->toArray());
+    }
+
+    public function testErrorMessageReturnedWhenApiHasError(): void
+    {
+        $apiKey = Config::get('auth.api_key');
+
+        Quote::shouldReceive('clearCache')
+            ->once()
+            ->andReturnNull();
+        
+        Quote::shouldReceive('get')
+            ->once()
+            ->andThrow(KanyeQuotesApiException::class);
+
+        $response = $this->get(
+            route('kanye-quotes-refresh'),
+            ['X-API-KEY' => $apiKey]
+        );
+
+        $response->assertServiceUnavailable()
+            ->assertJson([
+                'message' => 'There was an error fetching Kanye quotes. Please try again.'
+            ]);
     }
 
     public function testEndpointIsUnauthorisedWithIncorrectKey(): void
